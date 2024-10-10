@@ -1,0 +1,17 @@
+@hosturl = https://localhost:7012/category
+
+###
+//CREATE
+POST {{hosturl}}/
+Content-Type: application/json
+
+{
+  "Name":"Electronic"
+}
+
+###
+
+
+DELETE {{hosturl}}/8a28b1ef-d3af-4b59-9bb0-2bd9d912c56c
+
+###
