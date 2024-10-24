@@ -6,7 +6,8 @@ POST {{hosturl}}/
 Content-Type: application/json
 
 {
-  "Name":"Electronic"
+  "Name":"encapsulatetest1",
+  "Description":"encapsulatetestdescription"
 }
 
 ###

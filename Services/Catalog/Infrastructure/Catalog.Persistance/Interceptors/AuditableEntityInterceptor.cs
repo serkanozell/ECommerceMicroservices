@@ -31,14 +31,12 @@ namespace Catalog.Persistance.Interceptors
                     entry.Entity.IsActive = true;
                     entry.Entity.IsDeleted = false;
                 }
-
-                if (/*entry.State == EntityState.Added ||*/ entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
+                else if (/*entry.State == EntityState.Added ||*/ entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
                 {
                     //entry.Entity.UpdatedBy = "serkan";
                     entry.Entity.UpdatedDate = DateTime.UtcNow;
                 }
-
-                if (entry.State == EntityState.Deleted)
+                else if (entry.State == EntityState.Deleted)
                 {
                     entry.State = EntityState.Modified;
                     entry.Entity.IsActive = false;

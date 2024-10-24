@@ -10,5 +10,10 @@ namespace Catalog.Domain.Entities
         public string Description { get; set; } = default!;
 
         public virtual Category Category { get; set; }
+
+        public Product()
+        {
+
+        }
     }
 }

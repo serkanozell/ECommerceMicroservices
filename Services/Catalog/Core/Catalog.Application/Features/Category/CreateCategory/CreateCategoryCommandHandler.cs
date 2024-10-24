@@ -7,13 +7,7 @@ namespace Catalog.Application
     {
         public async Task<CreateCategoryResult> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = new Category
-            {
-                Id = Guid.NewGuid(),
-                Name = request.CreateCategoryDto.Name,
-                IsActive = true,
-                IsDeleted = false
-            };
+            var category = Category.Create(request.CreateCategoryDto.Name, request.CreateCategoryDto.Description);
 
             await _unitOfWork.CategoryRepository.AddAsync(category);
             await _unitOfWork.Save();

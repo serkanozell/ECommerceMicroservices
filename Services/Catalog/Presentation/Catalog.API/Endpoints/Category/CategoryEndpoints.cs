@@ -15,7 +15,8 @@ namespace Catalog.API.Endpoints.Category
 
             category.MapPost("/", async (ISender sender, CreateCategoryRequest createCategoryRequest) =>
             {
-                var command = new CreateCategoryCommand(CreateCategoryDto: new CreateCategoryDto(Name: createCategoryRequest.Name));
+                var command = new CreateCategoryCommand(CreateCategoryDto: new CreateCategoryDto(Name: createCategoryRequest.Name,
+                                                                                                 Description: createCategoryRequest.Description));
 
                 var result = await sender.Send(command);
 

@@ -1,4 +1,4 @@
 ﻿namespace Catalog.API.Requests.Category
 {
-    public record CreateCategoryRequest(string Name);
+    public record CreateCategoryRequest(string Name, string Description);
 }

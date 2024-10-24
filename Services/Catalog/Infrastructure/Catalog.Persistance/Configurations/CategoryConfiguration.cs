@@ -10,6 +10,10 @@
                    .HasMaxLength(100)
                    .IsRequired();
 
+            builder.Property(c => c.Description)
+                   .HasMaxLength(100)
+                   .IsRequired();
+
             builder.HasMany(c => c.Products)
                    .WithOne(c => c.Category)
                    .HasForeignKey(c => c.CategoryId)
