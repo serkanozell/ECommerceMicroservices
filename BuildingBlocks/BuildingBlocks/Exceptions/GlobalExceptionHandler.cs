@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildingBlocks.Exceptions
 {
-    public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+    public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IProblemDetailsService problemDetailsService) : IExceptionHandler
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
@@ -14,12 +14,12 @@ namespace BuildingBlocks.Exceptions
             if (exception is ValidationException validationException)
             {
                 problemDetails.Title = "Validation Errors";
-                problemDetails.Type = "Validation";
+                problemDetails.Type = exception.GetType().Name;
                 problemDetails.Detail = exception.Message;
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 problemDetails.Extensions.Add("ValidationErrors", validationException.Errors);
 
-                List<string> validationErrors = new List<string>();
+                List<string> validationErrors = [];
 
                 foreach (var error in validationException.Errors)
                     validationErrors.Add(error.ErrorMessage);
@@ -30,8 +30,12 @@ namespace BuildingBlocks.Exceptions
             logger.LogError("{ProblemDetailsTitle}", problemDetails.Title);
 
             problemDetails.Status = httpContext.Response.StatusCode;
-            await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken).ConfigureAwait(false);
-            return true;
+            return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+            {
+                Exception = exception,
+                HttpContext = httpContext,
+                ProblemDetails = problemDetails
+            });
         }
     }
 }
